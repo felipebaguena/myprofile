@@ -25,13 +25,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className={geist.className} suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning data-loading="true">
+      <head>
+        <style dangerouslySetInnerHTML={{
+          __html: `
+          [data-loading="true"] body {
+            visibility: hidden !important;
+            opacity: 0 !important;
+          }
+        `}} />
+      </head>
+      <body className={`${geist.className}`} suppressHydrationWarning>
         <StyledComponentsRegistry>
           <Providers>
             {children}
           </Providers>
         </StyledComponentsRegistry>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            window.addEventListener('load', function() {
+              requestAnimationFrame(function() {
+                document.documentElement.removeAttribute('data-loading');
+              });
+            });
+          `
+        }} />
       </body>
     </html>
   );

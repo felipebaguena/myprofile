@@ -1,41 +1,92 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import Header from '@/components/layout/Header'
-import Hero from '@/components/sections/Hero'
-import ComicStrip from '@/components/sections/ComicStrip'
-import HeroLoading from '@/components/ui/HeroLoading'
 import { AnimatePresence, motion } from 'framer-motion'
+import Header from '@/components/layout/Header'
+import Hero, { HeroDimensions } from '@/components/sections/Hero'
+import HeroLoading from '@/components/ui/HeroLoading'
+import ComicStrip from '@/components/sections/ComicStrip'
+import MobileLoading from '@/components/ui/MobileLoading'
 
-const Main = styled(motion.main)`
+const MainContainer = styled.div`
+  opacity: 0;
+  &.ready {
+    opacity: 1;
+  }
+`
+
+const ContentContainer = styled(motion.div)`
   min-height: 100vh;
+  width: 100%;
+`
+
+const StripContainer = styled.div`
+  padding: ${({ theme }) => theme.spacing.xl} 0;
+  max-width: 1200px;
+  margin: 0 auto;
 `
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
+  const [dimensions, setDimensions] = useState<HeroDimensions | null>(null)
+  const [hasMeasured, setHasMeasured] = useState(false)
+  const [isReady, setIsReady] = useState(false)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsReady(true)
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
   }
 
+  const handleMeasure = (dims: HeroDimensions) => {
+    if (!hasMeasured) {
+      setDimensions(dims)
+      setHasMeasured(true)
+    }
+  }
+
   return (
-    <AnimatePresence mode="sync">
-      {isLoading ? (
-        <HeroLoading key="loading" onComplete={handleLoadingComplete} />
-      ) : (
-        <motion.div
-          key="content"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Header />
-          <Main>
+    <MainContainer className={isReady ? 'ready' : ''}>
+      {!hasMeasured && <Hero isHidden onMeasure={handleMeasure} />}
+      <AnimatePresence mode={isMobile ? "wait" : "sync"}>
+        {dimensions && isLoading ? (
+          isMobile ? (
+            <MobileLoading
+              key="loading"
+              onComplete={handleLoadingComplete}
+            />
+          ) : (
+            <HeroLoading
+              key="loading"
+              onComplete={handleLoadingComplete}
+              dimensions={dimensions}
+            />
+          )
+        ) : (
+          <ContentContainer
+            key="content"
+            initial={{ opacity: 0, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: isMobile ? 0.3 : 0.5,
+              delay: isMobile ? 0 : 0.3
+            }}
+          >
+            <Header />
             <Hero />
-            <ComicStrip />
-          </Main>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            <StripContainer>
+              <ComicStrip />
+            </StripContainer>
+          </ContentContainer>
+        )}
+      </AnimatePresence>
+    </MainContainer>
   )
 }

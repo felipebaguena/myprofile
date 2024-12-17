@@ -2,6 +2,7 @@
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
+import { HeroDimensions } from '../sections/Hero'
 
 const LoadingContainer = styled(motion.div)`
   position: fixed;
@@ -44,7 +45,15 @@ const LoadingPanel = styled(motion.div)`
   }
 `
 
-export default function HeroLoading({ onComplete }: { onComplete: () => void }) {
+export default function HeroLoading({
+    onComplete,
+    dimensions
+}: {
+    onComplete: () => void
+    dimensions: HeroDimensions
+}) {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+
     useEffect(() => {
         const timer = setTimeout(() => {
             onComplete()
@@ -61,16 +70,28 @@ export default function HeroLoading({ onComplete }: { onComplete: () => void }) 
         >
             <GridContainer>
                 <LoadingPanel
-                    style={{ gridColumn: '1 / 3', gridRow: '1 / 2' }}
+                    style={{
+                        gridColumn: isMobile ? '1 / 4' : '1 / 3',
+                        gridRow: '1 / 2',
+                        width: dimensions.welcome?.width,
+                        height: dimensions.welcome?.height,
+                        order: isMobile ? 1 : undefined
+                    }}
                     initial={{ y: -100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
                 />
                 <LoadingPanel
-                    style={{ gridColumn: '3 / 4', gridRow: '1 / 3' }}
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
+                    style={{
+                        gridColumn: isMobile ? '1 / 4' : '3 / 4',
+                        gridRow: isMobile ? '2 / 3' : '1 / 3',
+                        width: dimensions.image?.width,
+                        height: dimensions.image?.height,
+                        order: isMobile ? 2 : undefined
+                    }}
+                    initial={{ x: isMobile ? 0 : 100, y: isMobile ? 50 : 0, opacity: 0 }}
+                    animate={{ x: 0, y: 0, opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                 />

@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 
@@ -150,18 +151,55 @@ const ComicText = styled.p`
   letter-spacing: 1px;
   text-shadow: 1px 1px 0 ${({ theme }) => theme.colors.background}, 
                2px 2px 0 ${({ theme }) => theme.colors.text};
+  text-align: center;
+  width: 100%;
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: clamp(1rem, 5vw, 1.8rem);
+    letter-spacing: 0.5px;
+  }
 `
 
-export default function Hero() {
+export interface HeroDimensions {
+    welcome: DOMRect | null
+    image: DOMRect | null
+    frontend: DOMRect | null
+    backend: DOMRect | null
+    final: DOMRect | null
+}
+
+export default function Hero({ onMeasure, isHidden = false }: {
+    onMeasure?: (dimensions: HeroDimensions) => void
+    isHidden?: boolean
+}) {
+    const welcomeRef = useRef<HTMLDivElement>(null)
+    const imageRef = useRef<HTMLDivElement>(null)
+    const frontendRef = useRef<HTMLDivElement>(null)
+    const backendRef = useRef<HTMLDivElement>(null)
+    const finalRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (onMeasure) {
+            const dimensions = {
+                welcome: welcomeRef.current?.getBoundingClientRect() || null,
+                image: imageRef.current?.getBoundingClientRect() || null,
+                frontend: frontendRef.current?.getBoundingClientRect() || null,
+                backend: backendRef.current?.getBoundingClientRect() || null,
+                final: finalRef.current?.getBoundingClientRect() || null
+            }
+            onMeasure(dimensions)
+        }
+    }, [onMeasure])
+
     return (
-        <ComicPage>
+        <ComicPage style={{ opacity: isHidden ? 0 : 1, position: isHidden ? 'absolute' : 'relative' }}>
             <GridContainer>
-                <WelcomePanel style={{ gridColumn: '1 / 3', gridRow: '1 / 2' }}>
+                <WelcomePanel ref={welcomeRef} style={{ gridColumn: '1 / 3', gridRow: '1 / 2' }}>
                     <Title>¡HOLA MUNDO!</Title>
                     <ComicText>Soy Felipe, un desarrollador que convierte código en aventuras.</ComicText>
                 </WelcomePanel>
 
-                <ImagePanel style={{ gridColumn: '3 / 4', gridRow: '1 / 3' }}>
+                <ImagePanel ref={imageRef} style={{ gridColumn: '3 / 4', gridRow: '1 / 3' }}>
                     <StyledImage
                         src="/images/fotocv1.jpg"
                         alt="Felipe Baguena"
@@ -172,15 +210,15 @@ export default function Hero() {
                 </ImagePanel>
 
                 <SkillsContainer>
-                    <Panel>
+                    <Panel ref={frontendRef}>
                         <ComicText>FRONTEND</ComicText>
                     </Panel>
-                    <Panel>
+                    <Panel ref={backendRef}>
                         <ComicText>BACKEND</ComicText>
                     </Panel>
                 </SkillsContainer>
 
-                <FinalPanel>
+                <FinalPanel ref={finalRef}>
                     <ComicText>¡Creando experiencias web únicas y memorables!</ComicText>
                 </FinalPanel>
             </GridContainer>

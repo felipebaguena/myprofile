@@ -62,14 +62,19 @@ export default function ComicStrip() {
             {panels.map((text, index) => {
                 const ref = useRef(null)
                 const isInView = useInView(ref, { once: true })
+                const isEven = index % 2 === 0
 
                 return (
                     <Panel
                         key={index}
                         ref={ref}
-                        initial={{ opacity: 0, x: -100 }}
+                        initial={{ opacity: 0, x: isEven ? -100 : 100 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.5, delay: index * 0.2 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 0.2,
+                            ease: "easeOut"
+                        }}
                     >
                         <ComicText>{text}</ComicText>
                     </Panel>
