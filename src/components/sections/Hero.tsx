@@ -26,7 +26,10 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, minmax(150px, auto));
   gap: ${({ theme }) => theme.spacing.md};
-  max-height: 80vh;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) and (max-width: 1200px) {
+    grid-template-columns: 0.8fr 0.8fr 1.4fr;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: flex;
@@ -66,9 +69,16 @@ const Panel = styled.div<{ area?: string }>`
 
 const ImagePanel = styled(Panel)`
   overflow: hidden;
+  padding: 0;
+  
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     aspect-ratio: 1;
     order: 2;
+    padding: clamp(
+      ${({ theme }) => theme.spacing.md},
+      calc(12vw - 1rem),
+      ${({ theme }) => theme.spacing.xl}
+    );
   }
 `
 
@@ -144,8 +154,6 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colors.text};
   text-transform: uppercase;
   letter-spacing: 2px;
-  text-shadow: 2px 2px 0 ${({ theme }) => theme.colors.background}, 
-               3px 3px 0 ${({ theme }) => theme.colors.text};
 `
 
 const ComicText = styled.p`
@@ -154,8 +162,6 @@ const ComicText = styled.p`
   color: ${({ theme }) => theme.colors.text};
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 1px 1px 0 ${({ theme }) => theme.colors.background}, 
-               2px 2px 0 ${({ theme }) => theme.colors.text};
   text-align: center;
   width: 100%;
   

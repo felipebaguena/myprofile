@@ -7,6 +7,7 @@ import Hero, { HeroDimensions } from '@/components/sections/Hero'
 import HeroLoading from '@/components/ui/HeroLoading'
 import ComicStrip from '@/components/sections/ComicStrip'
 import MobileLoading from '@/components/ui/MobileLoading'
+import { theme } from '@/styles/theme'
 
 const MainContainer = styled.div`
   opacity: 0;
@@ -18,14 +19,15 @@ const MainContainer = styled.div`
 const ContentContainer = styled(motion.div)`
   min-height: 100vh;
   width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 `
 
 const StripContainer = styled.div`
-  max-width: 1200px;
   margin: 0 auto;
-  
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding-top: ${({ theme }) => theme.spacing.sm};
+  position: relative;
+  width: 100%;
   }
 `
 
@@ -34,7 +36,7 @@ export default function Home() {
   const [dimensions, setDimensions] = useState<HeroDimensions | null>(null)
   const [hasMeasured, setHasMeasured] = useState(false)
   const [isReady, setIsReady] = useState(false)
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= parseInt(theme.breakpoints.tablet)
 
   useEffect(() => {
     const timer = setTimeout(() => {

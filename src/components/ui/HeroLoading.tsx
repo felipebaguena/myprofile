@@ -1,12 +1,13 @@
 'use client'
 import styled from 'styled-components'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { HeroDimensions } from '../sections/Hero'
+import { theme } from '@/styles/theme'
 
 const LoadingContainer = styled(motion.div)`
   position: fixed;
-  top: 0;
+  top: 2rem;
   left: 0;
   width: 100%;
   height: 100vh;
@@ -58,7 +59,7 @@ export default function HeroLoading({
     onComplete: () => void
     dimensions: HeroDimensions
 }) {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= parseInt(theme.breakpoints.tablet)
 
     useEffect(() => {
         const timer = setTimeout(() => {

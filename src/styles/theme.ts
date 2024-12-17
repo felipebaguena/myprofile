@@ -15,8 +15,8 @@ export const theme = {
   },
   breakpoints: {
     mobile: "320px",
-    tablet: "768px",
-    desktop: "1024px",
+    tablet: "900px",
+    desktop: "1200px",
   },
   spacing: {
     xs: "0.25rem",

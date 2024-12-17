@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Link from 'next/link'
 
 const Nav = styled.nav`
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.lg} 0;
   display: flex;
   justify-content: center;
   align-items: center;

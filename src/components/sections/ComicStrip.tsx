@@ -4,15 +4,16 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 
+const ComicSection = styled.section`
+  padding: 0 ${({ theme }) => theme.spacing.md};
+  overflow: hidden;
+`
+
 const Container = styled.div`
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: 0 ${({ theme }) => theme.spacing.md};
-  }
 `
 
 const Panel = styled(motion.div)`
@@ -52,8 +53,6 @@ const ComicText = styled.p`
   color: ${({ theme }) => theme.colors.text};
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 1px 1px 0 ${({ theme }) => theme.colors.background},
-               2px 2px 0 ${({ theme }) => theme.colors.text};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     font-size: 1.2rem;
@@ -61,7 +60,7 @@ const ComicText = styled.p`
 `
 
 const panels = [
-    "¡Desarrollando aplicaciones web que rompen la cuarta pared!",
+    "Desarrollando aplicaciones web que rompen la cuarta pared!",
     "¡POW! Transformando ideas en código",
     "¡ZOOM! Optimizando el rendimiento",
     "¡BAM! Creando experiencias únicas",
@@ -69,28 +68,30 @@ const panels = [
 
 export default function ComicStrip() {
     return (
-        <Container>
-            {panels.map((text, index) => {
-                const ref = useRef(null)
-                const isInView = useInView(ref, { once: true })
-                const isEven = index % 2 === 0
+        <ComicSection>
+            <Container>
+                {panels.map((text, index) => {
+                    const ref = useRef(null)
+                    const isInView = useInView(ref, { once: true })
+                    const isEven = index % 2 === 0
 
-                return (
-                    <Panel
-                        key={index}
-                        ref={ref}
-                        initial={{ opacity: 0, x: isEven ? -100 : 100 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{
-                            duration: 0.8,
-                            delay: 0.2,
-                            ease: "easeOut"
-                        }}
-                    >
-                        <ComicText>{text}</ComicText>
-                    </Panel>
-                )
-            })}
-        </Container>
+                    return (
+                        <Panel
+                            key={index}
+                            ref={ref}
+                            initial={{ opacity: 0, x: isEven ? -100 : 100 }}
+                            animate={isInView ? { opacity: 1, x: 0 } : {}}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.2,
+                                ease: "easeOut"
+                            }}
+                        >
+                            <ComicText>{text}</ComicText>
+                        </Panel>
+                    )
+                })}
+            </Container>
+        </ComicSection>
     )
 }
