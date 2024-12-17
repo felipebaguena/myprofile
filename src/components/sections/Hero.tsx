@@ -3,19 +3,29 @@ import styled from 'styled-components'
 import Image from 'next/image'
 
 const ComicPage = styled.section`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.lg};
+  display: flex;
+  flex-direction: column;
+  padding: ${({ theme }) => theme.spacing.md};
   min-height: calc(100vh - 80px);
   position: relative;
   background: ${({ theme }) => theme.colors.background};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    gap: ${({ theme }) => theme.spacing.md};
+  }
+`
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, minmax(150px, auto));
+  gap: ${({ theme }) => theme.spacing.md};
+  max-height: 80vh;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.spacing.md};
+    max-height: none;
   }
 `
 
@@ -23,10 +33,12 @@ const Panel = styled.div<{ area?: string }>`
   border: 3px solid ${({ theme }) => theme.colors.text};
   background: ${({ theme }) => theme.colors.background};
   position: relative;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.lg};
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: ${({ theme }) => theme.spacing.sm};
 
   &::after {
     content: '';
@@ -39,6 +51,10 @@ const Panel = styled.div<{ area?: string }>`
     background-size: 3px 3px;
     opacity: 0.1;
     pointer-events: none;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.md};
   }
 `
 
@@ -139,37 +155,35 @@ const ComicText = styled.p`
 export default function Hero() {
     return (
         <ComicPage>
-            <WelcomePanel style={{ gridColumn: '1 / 3', gridRow: '1 / 2' }}>
-                <SpeechBubble>
+            <GridContainer>
+                <WelcomePanel style={{ gridColumn: '1 / 3', gridRow: '1 / 2' }}>
                     <Title>¡HOLA MUNDO!</Title>
-                    <p>Soy Felipe, un desarrollador que convierte código en aventuras.</p>
-                </SpeechBubble>
-            </WelcomePanel>
+                    <ComicText>Soy Felipe, un desarrollador que convierte código en aventuras.</ComicText>
+                </WelcomePanel>
 
-            <ImagePanel style={{ gridColumn: '3 / 4', gridRow: '1 / 3' }}>
-                <StyledImage
-                    src="/images/fotocv1.jpg"
-                    alt="Felipe Baguena"
-                    width={400}
-                    height={600}
-                    priority
-                />
-            </ImagePanel>
+                <ImagePanel style={{ gridColumn: '3 / 4', gridRow: '1 / 3' }}>
+                    <StyledImage
+                        src="/images/fotocv1.jpg"
+                        alt="Felipe Baguena"
+                        width={400}
+                        height={600}
+                        priority
+                    />
+                </ImagePanel>
 
-            <SkillsContainer>
-                <Panel>
-                    <ComicText>FRONTEND</ComicText>
-                </Panel>
-                <Panel>
-                    <ComicText>BACKEND</ComicText>
-                </Panel>
-            </SkillsContainer>
+                <SkillsContainer>
+                    <Panel>
+                        <ComicText>FRONTEND</ComicText>
+                    </Panel>
+                    <Panel>
+                        <ComicText>BACKEND</ComicText>
+                    </Panel>
+                </SkillsContainer>
 
-            <FinalPanel>
-                <SpeechBubble>
-                    <p>¡Creando experiencias web únicas y memorables!</p>
-                </SpeechBubble>
-            </FinalPanel>
+                <FinalPanel>
+                    <ComicText>¡Creando experiencias web únicas y memorables!</ComicText>
+                </FinalPanel>
+            </GridContainer>
         </ComicPage>
     )
 }

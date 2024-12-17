@@ -14,7 +14,6 @@ const Panel = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
 
   &::before {
     content: '';
