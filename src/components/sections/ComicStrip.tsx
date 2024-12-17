@@ -4,10 +4,21 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 
+const Container = styled.div`
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: 0 ${({ theme }) => theme.spacing.md};
+  }
+`
+
 const Panel = styled(motion.div)`
   border: 3px solid ${({ theme }) => theme.colors.text};
   padding: ${({ theme }) => theme.spacing.lg};
-  margin: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.background};
   position: relative;
   min-height: 300px;
@@ -58,7 +69,7 @@ const panels = [
 
 export default function ComicStrip() {
     return (
-        <div>
+        <Container>
             {panels.map((text, index) => {
                 const ref = useRef(null)
                 const isInView = useInView(ref, { once: true })
@@ -80,6 +91,6 @@ export default function ComicStrip() {
                     </Panel>
                 )
             })}
-        </div>
+        </Container>
     )
 }

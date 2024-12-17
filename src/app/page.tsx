@@ -21,9 +21,12 @@ const ContentContainer = styled(motion.div)`
 `
 
 const StripContainer = styled.div`
-  padding: ${({ theme }) => theme.spacing.xl} 0;
   max-width: 1200px;
   margin: 0 auto;
+  
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding-top: ${({ theme }) => theme.spacing.sm};
+  }
 `
 
 export default function Home() {

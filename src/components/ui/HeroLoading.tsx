@@ -17,6 +17,12 @@ const LoadingContainer = styled(motion.div)`
   align-items: center;
 `
 
+const Container = styled.div`
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 ${({ theme }) => theme.spacing.md};
+`
+
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -68,55 +74,57 @@ export default function HeroLoading({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <GridContainer>
-                <LoadingPanel
-                    style={{
-                        gridColumn: isMobile ? '1 / 4' : '1 / 3',
-                        gridRow: '1 / 2',
-                        width: dimensions.welcome?.width,
-                        height: dimensions.welcome?.height,
-                        order: isMobile ? 1 : undefined
-                    }}
-                    initial={{ y: -100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                />
-                <LoadingPanel
-                    style={{
-                        gridColumn: isMobile ? '1 / 4' : '3 / 4',
-                        gridRow: isMobile ? '2 / 3' : '1 / 3',
-                        width: dimensions.image?.width,
-                        height: dimensions.image?.height,
-                        order: isMobile ? 2 : undefined
-                    }}
-                    initial={{ x: isMobile ? 0 : 100, y: isMobile ? 50 : 0, opacity: 0 }}
-                    animate={{ x: 0, y: 0, opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                />
-                <LoadingPanel
-                    style={{ gridColumn: '1 / 2', gridRow: '2 / 3' }}
-                    initial={{ x: -100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                />
-                <LoadingPanel
-                    style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }}
-                    initial={{ x: -100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 0.8 }}
-                />
-                <LoadingPanel
-                    style={{ gridColumn: '1 / 4', gridRow: '3 / 4' }}
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 1 }}
-                />
-            </GridContainer>
+            <Container>
+                <GridContainer>
+                    <LoadingPanel
+                        style={{
+                            gridColumn: isMobile ? '1 / 4' : '1 / 3',
+                            gridRow: '1 / 2',
+                            width: dimensions.welcome?.width,
+                            height: dimensions.welcome?.height,
+                            order: isMobile ? 1 : undefined
+                        }}
+                        initial={{ y: -100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    />
+                    <LoadingPanel
+                        style={{
+                            gridColumn: isMobile ? '1 / 4' : '3 / 4',
+                            gridRow: isMobile ? '2 / 3' : '1 / 3',
+                            width: dimensions.image?.width,
+                            height: dimensions.image?.height,
+                            order: isMobile ? 2 : undefined
+                        }}
+                        initial={{ x: isMobile ? 0 : 100, y: isMobile ? 50 : 0, opacity: 0 }}
+                        animate={{ x: 0, y: 0, opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                    />
+                    <LoadingPanel
+                        style={{ gridColumn: '1 / 2', gridRow: '2 / 3' }}
+                        initial={{ x: -100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
+                    />
+                    <LoadingPanel
+                        style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }}
+                        initial={{ x: -100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, delay: 0.8 }}
+                    />
+                    <LoadingPanel
+                        style={{ gridColumn: '1 / 4', gridRow: '3 / 4' }}
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, delay: 1 }}
+                    />
+                </GridContainer>
+            </Container>
         </LoadingContainer>
     )
 }

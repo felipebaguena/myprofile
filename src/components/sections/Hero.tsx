@@ -6,14 +6,19 @@ import Image from 'next/image'
 const ComicPage = styled.section`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: ${({ theme }) => theme.spacing.md};
-  min-height: calc(100vh - 80px);
   position: relative;
   background: ${({ theme }) => theme.colors.background};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     gap: ${({ theme }) => theme.spacing.md};
   }
+`
+
+const Container = styled.div`
+  max-width: 1200px;
+  width: 100%;
 `
 
 const GridContainer = styled.div`
@@ -193,35 +198,37 @@ export default function Hero({ onMeasure, isHidden = false }: {
 
     return (
         <ComicPage style={{ opacity: isHidden ? 0 : 1, position: isHidden ? 'absolute' : 'relative' }}>
-            <GridContainer>
-                <WelcomePanel ref={welcomeRef} style={{ gridColumn: '1 / 3', gridRow: '1 / 2' }}>
-                    <Title>¡HOLA MUNDO!</Title>
-                    <ComicText>Soy Felipe, un desarrollador que convierte código en aventuras.</ComicText>
-                </WelcomePanel>
+            <Container>
+                <GridContainer>
+                    <WelcomePanel ref={welcomeRef} style={{ gridColumn: '1 / 3', gridRow: '1 / 2' }}>
+                        <Title>¡HOLA MUNDO!</Title>
+                        <ComicText>Soy Felipe, un desarrollador que convierte código en aventuras.</ComicText>
+                    </WelcomePanel>
 
-                <ImagePanel ref={imageRef} style={{ gridColumn: '3 / 4', gridRow: '1 / 3' }}>
-                    <StyledImage
-                        src="/images/fotocv1.jpg"
-                        alt="Felipe Baguena"
-                        width={400}
-                        height={600}
-                        priority
-                    />
-                </ImagePanel>
+                    <ImagePanel ref={imageRef} style={{ gridColumn: '3 / 4', gridRow: '1 / 3' }}>
+                        <StyledImage
+                            src="/images/fotocv1.jpg"
+                            alt="Felipe Baguena"
+                            width={400}
+                            height={600}
+                            priority
+                        />
+                    </ImagePanel>
 
-                <SkillsContainer>
-                    <Panel ref={frontendRef}>
-                        <ComicText>FRONTEND</ComicText>
-                    </Panel>
-                    <Panel ref={backendRef}>
-                        <ComicText>BACKEND</ComicText>
-                    </Panel>
-                </SkillsContainer>
+                    <SkillsContainer>
+                        <Panel ref={frontendRef}>
+                            <ComicText>FRONTEND</ComicText>
+                        </Panel>
+                        <Panel ref={backendRef}>
+                            <ComicText>BACKEND</ComicText>
+                        </Panel>
+                    </SkillsContainer>
 
-                <FinalPanel ref={finalRef}>
-                    <ComicText>¡Creando experiencias web únicas y memorables!</ComicText>
-                </FinalPanel>
-            </GridContainer>
+                    <FinalPanel ref={finalRef}>
+                        <ComicText>¡Creando experiencias web únicas y memorables!</ComicText>
+                    </FinalPanel>
+                </GridContainer>
+            </Container>
         </ComicPage>
     )
 }
